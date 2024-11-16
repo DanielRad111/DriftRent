@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
-@Table
+@Table(name = "`ad`")
 @Entity
 @Data
 @NoArgsConstructor
@@ -13,7 +13,7 @@ import lombok.Data;
 public class Ad {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String title;
