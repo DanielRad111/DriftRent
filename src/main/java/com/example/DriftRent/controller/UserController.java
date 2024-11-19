@@ -1,6 +1,7 @@
 package com.example.DriftRent.controller;
 
 import com.example.DriftRent.dto.AdDTO;
+import com.example.DriftRent.dto.LoginRequestDTO;
 import com.example.DriftRent.dto.UserDTO;
 import com.example.DriftRent.model.User;
 import com.example.DriftRent.service.UserService;
@@ -55,5 +56,17 @@ public class UserController {
                 .toList();
         userDTO.setAds(adDTOS);
         return userDTO;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequestDTO loginRequest) {
+        User user = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
+
+        if (user != null) {
+            UserDTO userDTO = convertToDTO(user);
+            return ResponseEntity.status(HttpStatus.OK).body(userDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
