@@ -57,6 +57,21 @@ public class UserController {
         userDTO.setAds(adDTOS);
         return userDTO;
     }
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteUser(@RequestBody UserDTO userDTO) {
+        if (userDTO.getEmail() == null || userDTO.getEmail().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        boolean deleted = userService.delete(new User(userDTO.getEmail(), null, null, null));
+        if (deleted) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody LoginRequestDTO loginRequest) {

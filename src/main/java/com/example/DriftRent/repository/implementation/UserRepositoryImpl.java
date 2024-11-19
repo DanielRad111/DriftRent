@@ -70,12 +70,14 @@ public class UserRepositoryImpl implements UserRepository {
         Transaction transaction = session.beginTransaction();
 
         String email = entity.getEmail();
+        if(email==null)
+            return false;
         session.delete(entity);
 
         transaction.commit();
         session.close();
 
-        return findById(email) == null;
+        return true;
     }
 
     @Override
