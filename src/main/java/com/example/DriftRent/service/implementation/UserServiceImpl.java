@@ -11,6 +11,11 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository = RepositorySinglePointAccess.getUserRepository();
 
     @Override
+    public User findUserById(Integer id) {
+        return userRepository.findById(id);
+    }
+
+    @Override
     public User save(User user) {
         return userRepository.save(user);
     }

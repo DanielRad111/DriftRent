@@ -40,8 +40,7 @@ public class UserController {
     }
 
 
-
-    private UserDTO convertToDTO(User user){
+    private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(user.getEmail());
         userDTO.setRating(user.getRating());
@@ -57,20 +56,20 @@ public class UserController {
         userDTO.setAds(adDTOS);
         return userDTO;
     }
+
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteUser(@RequestBody UserDTO userDTO) {
         if (userDTO.getEmail() == null || userDTO.getEmail().isEmpty()) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-
-        boolean deleted = userService.delete(new User(userDTO.getEmail(), null, null, null));
+        User user = userService.findUserByEmail(userDTO.getEmail());
+        boolean deleted = userService.delete(user);
         if (deleted) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
-
 
 
     @PostMapping("/login")
@@ -83,5 +82,16 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<UserDTO> update(@RequestBody User user) {
+        User userFromDB = userService.findUserById(user.getId());
+        userFromDB.setEmail(user.getEmail());
+        userFromDB.setPassword(user.getPassword());
+        userFromDB.setRating(user.getRating());
+        User userUpdated = userService.update(userFromDB);
+        UserDTO userDTO = convertToDTO(userUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 }

@@ -19,11 +19,11 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        String emailOnPersonSaved = (String) session.save(entity);
+        Integer idOnPersonSaved = (Integer) session.save(entity);
         transaction.commit();
         session.close();
 
-        return findById(emailOnPersonSaved);
+        return findById(idOnPersonSaved);
     }
 
     @Override
@@ -32,23 +32,23 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        String email = entity.getEmail();
+        Integer id = entity.getId();
         session.saveOrUpdate(entity);
 
         transaction.commit();
         session.close();
 
-        return findById(email);
+        return findById(id);
     }
 
     @Override
-    public User findById(String id) {
+    public User findById(Integer id) {
         SessionFactory sessionFactory = HibernateConfiguration.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        Query query = session.createQuery("from User where email =: email");
-        query.setParameter("email", id);
+        Query query = session.createQuery("from User where id =: id");
+        query.setParameter("id", id);
 
         User user;
         try {
@@ -69,9 +69,9 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-        String email = entity.getEmail();
-        if(email==null)
-            return false;
+//        Integer id = entity.getId();
+//        if(email==null)
+//            return false;
         session.delete(entity);
 
         transaction.commit();
