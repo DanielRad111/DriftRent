@@ -8,6 +8,7 @@ import org.hibernate.cfg.Configuration;
 public class HibernateConfiguration {
     private static final String HIBERNATE_CONFIGURATION_FILE = "hibernate.cfg.xml";
     private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
+
     private static SessionFactory buildSessionFactory() {
         try {
             Configuration configuration = new Configuration().configure(HIBERNATE_CONFIGURATION_FILE);
@@ -18,6 +19,7 @@ public class HibernateConfiguration {
             throw new ExceptionInInitializerError(ex);
         }
     }
+
     public static SessionFactory getSessionFactory() {
         return SESSION_FACTORY;
     }

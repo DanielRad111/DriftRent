@@ -1,18 +1,24 @@
 package com.example.DriftRent.single_point_access;
 
+import com.example.DriftRent.repository.CarRepository;
 import com.example.DriftRent.repository.UserRepository;
+import com.example.DriftRent.repository.implementation.CarRepositoryImpl;
 import com.example.DriftRent.repository.implementation.UserRepositoryImpl;
-import org.hibernate.SessionFactory;
 
 public class RepositorySinglePointAccess {
-    private SessionFactory sessionFactory;
     private static UserRepository userRepository;
+    private static CarRepository carRepository;
 
-    static{
+    static {
         userRepository = new UserRepositoryImpl();
+        carRepository = new CarRepositoryImpl();
     }
 
-    public static UserRepository getUserRepository(){
+    public static UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public static CarRepository getCarRepository() {
+        return carRepository;
     }
 }

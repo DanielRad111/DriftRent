@@ -19,6 +19,6 @@
 
         <mapping class="com.example.DriftRent.model.User"/>
         <mapping class="com.example.DriftRent.model.Ad"/>
-
+        <mapping class="com.example.DriftRent.model.Car"/>
     </session-factory>
 </hibernate-configuration>

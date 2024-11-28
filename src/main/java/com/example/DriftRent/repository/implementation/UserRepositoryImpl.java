@@ -14,7 +14,7 @@ import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
     @Override
-    public User save(User entity){
+    public User save(User entity) {
         SessionFactory sessionFactory = HibernateConfiguration.getSessionFactory();
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -69,9 +69,6 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
 
-//        Integer id = entity.getId();
-//        if(email==null)
-//            return false;
         session.delete(entity);
 
         transaction.commit();
@@ -108,9 +105,9 @@ public class UserRepositoryImpl implements UserRepository {
         query.setParameter("rating", rating);
 
         User user;
-        try{
+        try {
             user = query.getSingleResult();
-        }catch(QueryException e){
+        } catch (QueryException e) {
             user = null;
         }
 
