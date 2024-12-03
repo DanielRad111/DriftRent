@@ -14,14 +14,24 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main class for the DriftRent Spring Boot application.
+ */
 @SpringBootApplication
 public class DriftRentApplication {
 
+	/**
+	 * Service for managing users.
+	 */
 	@Autowired
 	private UserService userService; // Autowiring UserService
 
+	/**
+	 * Main method to run the Spring Boot application.
+	 *
+	 * @param args Command line arguments
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(DriftRentApplication.class, args);
 	}
-
 }
