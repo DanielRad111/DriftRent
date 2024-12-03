@@ -2,6 +2,8 @@ package com.example.DriftRent.repository;
 
 import com.example.DriftRent.model.Car;
 
-public interface CarRepository extends CRUDRepository<Car, Integer> {
+import java.util.List;
 
+public interface CarRepository extends CRUDRepository<Car, Integer> {
+    List<Car> findall();
 }
