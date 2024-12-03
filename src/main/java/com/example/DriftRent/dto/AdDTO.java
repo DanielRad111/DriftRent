@@ -1,5 +1,6 @@
 package com.example.DriftRent.dto;
 
+import com.example.DriftRent.model.Car;
 import lombok.Data;
 
 /**
@@ -22,4 +23,6 @@ public class AdDTO {
      * Price of the ad.
      */
     private Double price;
+
+    private Car car;
 }
