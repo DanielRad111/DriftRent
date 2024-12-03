@@ -85,4 +85,10 @@ public class Car {
      */
     @Column
     private String color;
+
+    /**
+     * The ad associated with the car.
+     */
+    @OneToOne(mappedBy = "car")
+    private Ad ad;
 }
