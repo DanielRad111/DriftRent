@@ -8,6 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "car")
+@NamedQueries(
+        {
+                @NamedQuery(name = "findAllCars", query = "select a from Car a")
+        }
+)
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

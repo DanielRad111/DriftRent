@@ -5,6 +5,8 @@ import com.example.DriftRent.repository.CarRepository;
 import com.example.DriftRent.service.CarService;
 import com.example.DriftRent.single_point_access.RepositorySinglePointAccess;
 
+import java.util.List;
+
 public class CarServiceImpl implements CarService {
     private CarRepository carRepository = RepositorySinglePointAccess.getCarRepository();
 
@@ -27,4 +29,10 @@ public class CarServiceImpl implements CarService {
     public boolean delete(Car car) {
         return carRepository.delete(car);
     }
+
+    @Override
+    public List<Car> findAllCars() {
+        return carRepository.findall();
+    }
+
 }
