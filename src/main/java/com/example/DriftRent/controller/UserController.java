@@ -12,11 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing users.
+ */
 @RestController
 @RequestMapping("/user")
 public class UserController {
     private UserService userService = ServiceSinglePointAccess.getUserService();
 
+    /**
+     * Retrieves a user by their email.
+     *
+     * @param email the email of the user to retrieve
+     * @return the ResponseEntity containing the UserDTO if found, or a NOT_FOUND status
+     */
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
         User user = userService.findUserByEmail(email);
@@ -28,6 +37,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Creates a new user.
+     *
+     * @param user the User entity to create
+     * @return the ResponseEntity containing the created UserDTO, or a BAD_REQUEST status if the email is invalid
+     */
     @PostMapping("/create")
     public ResponseEntity<UserDTO> createUser(@RequestBody User user) {
         if (user.getEmail() == null || user.getEmail().isEmpty()) {
@@ -38,7 +53,12 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
-
+    /**
+     * Converts a User entity to a UserDTO.
+     *
+     * @param user the User entity to convert
+     * @return the converted UserDTO
+     */
     private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail(user.getEmail());
@@ -56,6 +76,12 @@ public class UserController {
         return userDTO;
     }
 
+    /**
+     * Deletes a user.
+     *
+     * @param userDTO the UserDTO of the user to delete
+     * @return a ResponseEntity indicating the result of the operation
+     */
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteUser(@RequestBody UserDTO userDTO) {
         if (userDTO.getEmail() == null || userDTO.getEmail().isEmpty()) {
@@ -70,7 +96,12 @@ public class UserController {
         }
     }
 
-
+    /**
+     * Logs in a user.
+     *
+     * @param loginRequest the LoginRequestDTO containing the user's email and password
+     * @return the ResponseEntity containing the UserDTO if login is successful, or an UNAUTHORIZED status
+     */
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody LoginRequestDTO loginRequest) {
         User user = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
@@ -83,6 +114,12 @@ public class UserController {
         }
     }
 
+    /**
+     * Updates an existing user.
+     *
+     * @param user the User entity with updated information
+     * @return the ResponseEntity containing the updated UserDTO
+     */
     @PutMapping("/update")
     public ResponseEntity<UserDTO> update(@RequestBody User user) {
         User userFromDB = userService.findUserById(user.getId());
