@@ -8,10 +8,10 @@
 
         <property name="hbm2ddl.auto">update</property>
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/DriftRent</property>
+        <property name="hibernate.connection.url">jdbc:mysql://driftrent-do-user-18333731-0.f.db.ondigitalocean.com:25060/driftrent</property>
 
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">password</property>
+        <property name="hibernate.connection.username">doadmin</property>
+        <property name="hibernate.connection.password">AVNS_fP7kSPOwVVt9eEHM5bg</property>
 
 
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
