@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-    @Autowired
     private final UserRepository userRepository;
 
     public User findUserById(Integer id) {
@@ -31,6 +30,8 @@ public class UserService {
     public void delete(User user) {
          this.userRepository.delete(user);
     }
+
+    public User findUserByRating(Double rating){return this.userRepository.findUserByRating(rating);}
 
     public User login(String email, String password) {
         // Find the user by email
