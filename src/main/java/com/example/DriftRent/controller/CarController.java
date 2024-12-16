@@ -3,17 +3,18 @@ package com.example.DriftRent.controller;
 import com.example.DriftRent.dto.CarDTO;
 import com.example.DriftRent.model.Car;
 import com.example.DriftRent.service.CarService;
-import com.example.DriftRent.single_point_access.ServiceSinglePointAccess;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/car")
 public class CarController {
-    private CarService carService = ServiceSinglePointAccess.getCarService();
+    private final CarService carService;
 
     private CarDTO convertToDTO(Car car) {
         CarDTO carDTO = new CarDTO();
@@ -45,12 +46,8 @@ public class CarController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
         Car car = carService.findCarById(carDTO.getId());
-        boolean deleted = carService.delete(car);
-        if (deleted) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        carService.delete(car);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PutMapping("/update")

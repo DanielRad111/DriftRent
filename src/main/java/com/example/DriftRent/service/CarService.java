@@ -1,17 +1,35 @@
 package com.example.DriftRent.service;
 
 import com.example.DriftRent.model.Car;
+import com.example.DriftRent.repository.CarRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface CarService {
-    Car findCarById(Integer id);
+@Service
+@RequiredArgsConstructor
+public class CarService {
+    private final CarRepository carRepository;
 
-    Car save(Car car);
+    public Car findCarById(Integer id) {
+        return carRepository.findById(id).get();
+    }
 
-    Car update(Car car);
+    public Car save(Car car) {
+        return carRepository.save(car);
+    }
 
-    boolean delete(Car car);
+    public Car update(Car car) {
+        return carRepository.save(car);
+    }
 
-    List<Car> findAllCars();
+    public void delete(Car car) {
+        carRepository.delete(car);
+    }
+
+    public List<Car> findAllCars() {
+        return carRepository.findAll();
+    }
+
 }

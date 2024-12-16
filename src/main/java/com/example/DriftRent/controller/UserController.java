@@ -5,7 +5,7 @@ import com.example.DriftRent.dto.LoginRequestDTO;
 import com.example.DriftRent.dto.UserDTO;
 import com.example.DriftRent.model.User;
 import com.example.DriftRent.service.UserService;
-import com.example.DriftRent.single_point_access.ServiceSinglePointAccess;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +15,11 @@ import java.util.List;
 /**
  * REST controller for managing users.
  */
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private UserService userService = ServiceSinglePointAccess.getUserService();
+    private final UserService userService;
 
     /**
      * Retrieves a user by their email.
@@ -28,7 +29,7 @@ public class UserController {
      */
     @GetMapping("/email/{email}")
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
-        User user = userService.findUserByEmail(email);
+        User user = this.userService.findUserByEmail(email);
         if (user != null) {
             UserDTO userDTO = convertToDTO(user);
             return ResponseEntity.status(HttpStatus.OK).body(userDTO);
@@ -61,6 +62,7 @@ public class UserController {
      */
     private UserDTO convertToDTO(User user) {
         UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
         userDTO.setEmail(user.getEmail());
         userDTO.setRating(user.getRating());
         List<AdDTO> adDTOS = user.getAds().stream()
@@ -79,21 +81,17 @@ public class UserController {
     /**
      * Deletes a user.
      *
-     * @param userDTO the UserDTO of the user to delete
+     * @param email the UserDTO of the user to delete
      * @return a ResponseEntity indicating the result of the operation
      */
-    @DeleteMapping("/delete")
-    public ResponseEntity<Void> deleteUser(@RequestBody UserDTO userDTO) {
-        if (userDTO.getEmail() == null || userDTO.getEmail().isEmpty()) {
+    @DeleteMapping("/delete/{email}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String email) {
+        if (email == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        User user = userService.findUserByEmail(userDTO.getEmail());
-        boolean deleted = userService.delete(user);
-        if (deleted) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        User user = userService.findUserByEmail(email);
+        userService.delete(user);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     /**
