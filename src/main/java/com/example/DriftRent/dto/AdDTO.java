@@ -28,5 +28,5 @@ public class AdDTO {
      */
     private Double price;
 
-    private Car car;
+    private CarDTO carDTO;
 }

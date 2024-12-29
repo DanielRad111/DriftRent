@@ -1,15 +1,20 @@
 package com.example.DriftRent.service;
 
+import com.example.DriftRent.dto.AdDTO;
+import com.example.DriftRent.dto.UserDTO;
 import com.example.DriftRent.model.User;
 import com.example.DriftRent.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CarService carService;
 
     public User findUserById(Integer id) {
         return this.userRepository.findById(id).get();
@@ -49,5 +54,29 @@ public class UserService {
 
         // If password doesn't match, return null
         return null;
+    }
+
+    public UserDTO convertToDTO(User user) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        if(user.getRating() != null){
+            userDTO.setRating(user.getRating());
+        }
+        if(user.getAds() != null){
+            List<AdDTO> adDTOS = user.getAds().stream()
+                    .map(ad -> {
+                        AdDTO adDTO = new AdDTO();
+                        adDTO.setId(ad.getId());
+                        adDTO.setTitle(ad.getTitle());
+                        adDTO.setDescription(ad.getDescription());
+                        adDTO.setPrice(ad.getPrice());
+                        adDTO.setCarDTO(this.carService.convertToDTO(ad.getCar()));
+                        return adDTO;
+                    })
+                    .toList();
+            userDTO.setAds(adDTOS);
+        }
+        return userDTO;
     }
 }

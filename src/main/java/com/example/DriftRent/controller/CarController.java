@@ -16,27 +16,11 @@ import java.util.List;
 public class CarController {
     private final CarService carService;
 
-    private CarDTO convertToDTO(Car car) {
-        CarDTO carDTO = new CarDTO();
-        carDTO.setVIN(car.getVIN());
-        carDTO.setBrand(car.getBrand());
-        carDTO.setModel(car.getModel());
-        carDTO.setBody(car.getBody());
-        carDTO.setYearOfManufacture(car.getYearOfManufacture());
-        carDTO.setKm(car.getKm());
-        carDTO.setFuelType(car.getFuelType());
-        carDTO.setGearBox(car.getGearBox());
-        carDTO.setCylindricalCapacity(car.getCylindricalCapacity());
-        carDTO.setHorsePower(car.getHorsePower());
-        carDTO.setColor(car.getColor());
-        return carDTO;
-    }
-
     @PostMapping("/create")
     public ResponseEntity<CarDTO> createCar(@RequestBody Car car) {
 
         Car savedCar = carService.save(car);
-        CarDTO carDTO = convertToDTO(savedCar);
+        CarDTO carDTO = carService.convertToDTO(savedCar);
         return ResponseEntity.status(HttpStatus.CREATED).body(carDTO);
     }
 
@@ -65,7 +49,7 @@ public class CarController {
         carFromDB.setHorsePower(car.getHorsePower());
         carFromDB.setColor(car.getColor());
         Car carUpdated = carService.update(carFromDB);
-        CarDTO carDTO = convertToDTO(carUpdated);
+        CarDTO carDTO = carService.convertToDTO(carUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(carDTO);
     }
 
@@ -106,7 +90,7 @@ public class CarController {
                 .toList();
 
         List<CarDTO> carDTOs = filteredCars.stream()
-                .map(this::convertToDTO)
+                .map(this.carService::convertToDTO)
                 .toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(carDTOs);

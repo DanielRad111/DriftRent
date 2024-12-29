@@ -31,7 +31,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUserByEmail(@PathVariable String email) {
         User user = this.userService.findUserByEmail(email);
         if (user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = userService.convertToDTO(user);
             return ResponseEntity.status(HttpStatus.OK).body(userDTO);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -50,7 +50,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         User savedUser = userService.save(user);
-        UserDTO userDTO = convertToDTO(savedUser);
+        UserDTO userDTO = userService.convertToDTO(savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
@@ -60,23 +60,6 @@ public class UserController {
      * @param user the User entity to convert
      * @return the converted UserDTO
      */
-    private UserDTO convertToDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setRating(user.getRating());
-        List<AdDTO> adDTOS = user.getAds().stream()
-                .map(ad -> {
-                    AdDTO adDTO = new AdDTO();
-                    adDTO.setTitle(ad.getTitle());
-                    adDTO.setDescription(ad.getDescription());
-                    adDTO.setPrice(ad.getPrice());
-                    return adDTO;
-                })
-                .toList();
-        userDTO.setAds(adDTOS);
-        return userDTO;
-    }
 
     /**
      * Deletes a user.
@@ -105,7 +88,7 @@ public class UserController {
         User user = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
 
         if (user != null) {
-            UserDTO userDTO = convertToDTO(user);
+            UserDTO userDTO = userService.convertToDTO(user);
             return ResponseEntity.status(HttpStatus.OK).body(userDTO);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -121,11 +104,17 @@ public class UserController {
     @PutMapping("/update")
     public ResponseEntity<UserDTO> update(@RequestBody User user) {
         User userFromDB = userService.findUserById(user.getId());
-        userFromDB.setEmail(user.getEmail());
-        userFromDB.setPassword(user.getPassword());
-        userFromDB.setRating(user.getRating());
+        if(user.getEmail() != null){
+            userFromDB.setEmail(user.getEmail());
+        }
+        if(user.getPassword() != null){
+            userFromDB.setPassword(user.getPassword());
+        }
+        if(user.getRating() != null){
+            userFromDB.setRating(user.getRating());
+        }
         User userUpdated = userService.update(userFromDB);
-        UserDTO userDTO = convertToDTO(userUpdated);
+        UserDTO userDTO = userService.convertToDTO(userUpdated);
         return ResponseEntity.status(HttpStatus.OK).body(userDTO);
     }
 }

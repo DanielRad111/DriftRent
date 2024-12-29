@@ -1,6 +1,7 @@
 package com.example.DriftRent.service;
 
 import com.example.DriftRent.dto.AdDTO;
+import com.example.DriftRent.dto.CarDTO;
 import com.example.DriftRent.model.Ad;
 import com.example.DriftRent.repository.AdRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,17 +11,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AdService {
     private final AdRepository adRepository;
+    private final CarService carService;
 
-    public AdDTO save(AdDTO adDTO) {
-        Ad adEntity = this.adMapper.toEntity(adDTO);
-        var savedEntity =  adRepository.save(adEntity);
-        AdDTO savedDTO = this.adMapper.toDTO(savedEntity);
-        //mapstruct
-//        savedDTO.toBuilder()
-//                .price()
-//                .id()
-//                .build();
-        return savedDTO;
+    public Ad save(Ad ad) {
+        return adRepository.save(ad);
     }
 
     public Ad update(Ad ad) {
@@ -33,5 +27,15 @@ public class AdService {
 
     public void delete(Ad ad) {
         adRepository.delete(ad);
+    }
+
+    public AdDTO convertTODTO(Ad ad) {
+        AdDTO adDTO = new AdDTO();
+        adDTO.setId(ad.getId());
+        adDTO.setTitle(ad.getTitle());
+        adDTO.setDescription(ad.getDescription());
+        adDTO.setPrice(ad.getPrice());
+        adDTO.setCarDTO(carService.convertToDTO(ad.getCar()));
+        return adDTO;
     }
 }
