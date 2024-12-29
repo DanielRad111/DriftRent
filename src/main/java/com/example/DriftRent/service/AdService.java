@@ -1,12 +1,41 @@
 package com.example.DriftRent.service;
 
+import com.example.DriftRent.dto.AdDTO;
+import com.example.DriftRent.dto.CarDTO;
 import com.example.DriftRent.model.Ad;
+import com.example.DriftRent.repository.AdRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-public interface AdService{
-    Ad save(Ad ad);
-    Ad update(Ad ad);
-    Ad findById(Integer id);
-    Ad findAdByCar(Integer carId);
-    Ad findAdByTitle(String title);
-    boolean delete(Ad ad);
+@Service
+@RequiredArgsConstructor
+public class AdService {
+    private final AdRepository adRepository;
+    private final CarService carService;
+
+    public Ad save(Ad ad) {
+        return adRepository.save(ad);
+    }
+
+    public Ad update(Ad ad) {
+        return adRepository.save(ad);
+    }
+
+    public Ad findById(Integer id) {
+        return adRepository.findById(id).get();
+    }
+
+    public void delete(Ad ad) {
+        adRepository.delete(ad);
+    }
+
+    public AdDTO convertTODTO(Ad ad) {
+        AdDTO adDTO = new AdDTO();
+        adDTO.setId(ad.getId());
+        adDTO.setTitle(ad.getTitle());
+        adDTO.setDescription(ad.getDescription());
+        adDTO.setPrice(ad.getPrice());
+        adDTO.setCarDTO(carService.convertToDTO(ad.getCar()));
+        return adDTO;
+    }
 }

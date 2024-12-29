@@ -1,14 +1,18 @@
 package com.example.DriftRent.dto;
 
 import com.example.DriftRent.model.Car;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 /**
  * Data Transfer Object (DTO) for Ad entity.
  */
 @Data
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdDTO {
-
+    private Integer id;
     /**
      * Title of the ad.
      */
@@ -24,5 +28,5 @@ public class AdDTO {
      */
     private Double price;
 
-    private Car car;
+    private CarDTO carDTO;
 }
