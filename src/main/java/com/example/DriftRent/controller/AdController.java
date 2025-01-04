@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ad")
@@ -62,4 +64,13 @@ public class AdController {
         AdDTO adDTO = this.adService.convertTODTO(updatedAd);
         return ResponseEntity.status(HttpStatus.OK).body(adDTO);
     }
+    @GetMapping("/all")
+    public ResponseEntity<List<AdDTO>> findAllAds() {
+        List<Ad> ads = adService.findAll();
+        List<AdDTO> adDTOs = ads.stream()
+                .map(adService::convertTODTO)
+                .toList();
+        return ResponseEntity.status(HttpStatus.OK).body(adDTOs);
+    }
+
 }

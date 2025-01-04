@@ -7,6 +7,8 @@ import com.example.DriftRent.repository.AdRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AdService {
@@ -38,4 +40,8 @@ public class AdService {
         adDTO.setCarDTO(carService.convertToDTO(ad.getCar()));
         return adDTO;
     }
+    public List<Ad> findAll() {
+        return adRepository.findAll();
+    }
+
 }
