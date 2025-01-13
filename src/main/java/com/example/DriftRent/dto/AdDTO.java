@@ -29,4 +29,7 @@ public class AdDTO {
     private Double price;
 
     private CarDTO carDTO;
+    private String userEmail;
+    private String ownerFirstName;
+    private String ownerLastName;
 }

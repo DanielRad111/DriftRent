@@ -38,6 +38,9 @@ public class AdService {
         adDTO.setDescription(ad.getDescription());
         adDTO.setPrice(ad.getPrice());
         adDTO.setCarDTO(carService.convertToDTO(ad.getCar()));
+        adDTO.setUserEmail(ad.getUser().getEmail());
+        adDTO.setOwnerFirstName(ad.getUser().getFirstName());
+        adDTO.setOwnerLastName(ad.getUser().getLastName());
         return adDTO;
     }
     public List<Ad> findAll() {
