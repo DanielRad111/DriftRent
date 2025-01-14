@@ -32,4 +32,5 @@ public class AdDTO {
     private String userEmail;
     private String ownerFirstName;
     private String ownerLastName;
+    private String ownerPhone;
 }

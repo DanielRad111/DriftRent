@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @Column
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Ad> ads;
 }

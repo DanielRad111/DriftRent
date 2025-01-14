@@ -41,6 +41,7 @@ public class AdService {
         adDTO.setUserEmail(ad.getUser().getEmail());
         adDTO.setOwnerFirstName(ad.getUser().getFirstName());
         adDTO.setOwnerLastName(ad.getUser().getLastName());
+        adDTO.setOwnerPhone(ad.getUser().getPhoneNumber());
         return adDTO;
     }
     public List<Ad> findAll() {

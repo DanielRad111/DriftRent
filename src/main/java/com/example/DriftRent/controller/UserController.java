@@ -84,7 +84,7 @@ public class UserController {
      * @return the ResponseEntity containing the UserDTO if login is successful, or an UNAUTHORIZED status
      */
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> login(@RequestBody sLoginRequestDTO loginRequest) {
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequestDTO loginRequest) {
         User user = userService.login(loginRequest.getEmail(), loginRequest.getPassword());
 
         if (user != null) {
